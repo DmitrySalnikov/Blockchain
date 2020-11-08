@@ -5,3 +5,6 @@ class Transaction:
 
     def data(self):
         return self.__message
+
+    def save_to_file(self, file):
+        file.write('message: {}\n'.format(self.__message))
