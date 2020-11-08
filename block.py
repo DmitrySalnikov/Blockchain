@@ -4,16 +4,34 @@ from hashlib import sha256
 
 class Block:
 
-    def __init__(self, message, nonce, previous_hash):
+    def __init__(self, transactions, previous_hash):
         """Initialize block"""
 
-        self.__message = message
-        self.__nonce = nonce
+        self.__transactions = transactions
+        self.__nonce = 0
         self.__previous_hash = previous_hash
         self.__timestamp = datetime.utcnow()
 
-    def __block_str(self):
-        return '{}{}{}{}'.format(self.__message, self.__nonce, self.__previous_hash, self.__timestamp)
+    def data(self):
+        data = []
+        for transaction in self.__transactions:
+            data.append(transaction.data())
+        return data
 
     def hash(self):
         return sha256(self.__block_str().encode()).hexdigest()
+
+    def __block_str(self):
+        return '{}{}{}{}'.format(self.data(), self.__nonce, self.__previous_hash, self.__timestamp)
+
+    @property
+    def previous_hash(self):
+        return self.__previous_hash
+
+    @property
+    def nonce(self):
+        return self.__nonce
+
+    @nonce.setter
+    def nonce(self, nonce):
+        self.__nonce = nonce

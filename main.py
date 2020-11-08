@@ -1,3 +1,7 @@
-from blockchain import Blockchain
+from blockchain import Blockchain, Transaction
 
-print(Blockchain().__class__)
+chain = Blockchain()
+chain.add_transaction(Transaction("first block message"))
+chain.print_blocks_data()
+chain.add_transaction(Transaction("second block message"))
+chain.print_blocks_data(1)
